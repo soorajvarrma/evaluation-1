@@ -22,22 +22,22 @@
             <div class="banner">
                 <p>Got an account? Enter your details to begin</p>
             </div>
-            <form action="post" id="form">
+            <form action="/signup" method="POST" id="form">
                     <div class="form-control">
-                        <input type="text" id="email" placeholder="Email">
+                        <input type="text" id="email" name="email" placeholder="Email">
                     </div>
                     <div class="form-control">
-                        <input type="password" id="password" placeholder="Password">
+                        <input type="password" id="password" name="password" placeholder="Password">
                     </div>
                     <div class="form-control">
-                        <input type="password" id="password2" placeholder="Confirm Password">
+                        <input type="password" id="password2" name="password2" placeholder="Confirm Password">
                     </div>
                     <div class="form-control ">
-                        <input type="text" id="company" placeholder="Company">
+                        <input type="text" id="company" name="company" placeholder="Company">
                     </div>
                     <div class="form-control ">
-                        <label for="gender">
-                            <select name="gender"  id="gender" value="Gender">
+                        <label for="gender" >
+                            <select name="gender" name="gender"  id="gender" value="Gender">
                                 <option value="" disabled selected>Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -52,10 +52,10 @@
                     <input type="checkbox">
                     <p class="blue">I agree the terms and conditions</p>
                     
-                    <div class="confirm">
-                        <input class="login" type="submit" value="SIGNUP">
+                    <form class="confirm" method="post" action="/" >
+                        <button class="login" type="submit" value="SIGNUP">SIGNUP</button>
                         <input class="cancel" type="reset" value=" CANCEL">
-                    </div>
+                    </form>
             </form>
             <div class="signin-options">
                 <div class="options flex">
@@ -84,10 +84,17 @@
         const password = document.getElementById("password");
         const password2 = document.getElementById("password2");    
         const email = document.getElementById("email");
-        
 
+        
+        var checkbox = document.querySelector("input[name=checkbox]");
+
+        checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            setError(checkbox)
+        } 
+        });
         form.addEventListener("submit" , (e) =>{
-            e.preventDefault();
+            // e.preventDefault();
 
             checkInput();
         })
