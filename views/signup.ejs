@@ -9,6 +9,7 @@
     <script src="signup.js" defer></script>
 </head>
 <body>
+    
     <div class="container">
         <div class="box">
             <div class="account-header">
@@ -22,7 +23,7 @@
             <div class="banner">
                 <p>Got an account? Enter your details to begin</p>
             </div>
-            <form action="/signup" method="POST" id="form">
+            <form action="/signup" method="POST" id="form" onsubmit="return checkInput()">
                     <div class="form-control">
                         <input type="text" id="email" name="email" placeholder="Email">
                     </div>
@@ -79,32 +80,87 @@
 
 
     <script>
+        alert(message);
+
         const form = document.getElementById('form');
         const company = document.getElementById("company");
         const password = document.getElementById("password");
         const password2 = document.getElementById("password2");    
         const email = document.getElementById("email");
-
-        
         var checkbox = document.querySelector("input[name=checkbox]");
 
         checkbox.addEventListener('change', function() {
-        if (this.checked) {
+        if (!this.checked) {
             setError(checkbox)
         } 
         });
-        form.addEventListener("submit" , (e) =>{
-            // e.preventDefault();
 
-            checkInput();
-        })
+        form.addEventListener("submit" ,e =>{
+
+            
+            if(checkInput()){
+                if((errorm+errorp)!==4){
+                    email.style.borderBottom = "1px solid red"
+                }else{
+                email.style.border = "1px solid green"
+                password.style.borderBottom = "1px solid green"
+                }
+            }else{
+                if(errorm!==0){
+                    email.style.borderBottom = "1px solid red"
+                }
+                if(errorp!==0){
+                    password.style.borderBottom = "1px solid red"
+                }
+                if(errorpt!==0){
+                    password2.style.borderBottom = "1px solid red"
+                }
+                if(errorc!==0){
+                    company.style.borderBottom = "1px solid red"
+                }
+
+                errorm = 0;
+                errorp =0;
+                errorc = 0;
+                erropt = 0;
+
+            }
+        });
+
+        function checkInput(){
+            var emailValue = email.value.trim();
+            var passwordValue = password.value.trim();
+            var companyValue = company.value.trim();
+            var password2Value = password2.value.trim();
+            if(emailValue ==''){
+                errorm++ ;  
+            }
+            if(passwordValue == ''){
+                errorp++;
+            }
+            if(password2Value ===''){
+                //add error class
+                errorpt++;
+            }
+            if(companyValue ===''){
+                //add error class
+                errorc++;
+            }
+            if(passwordValue !== password2Value){
+                setError(password2);
+            }
+            if((errorp+errorg+errorm+errorpt)!==0){
+                return false
+            }
+            
+            else{
+                return true;
+            }
+        }
 
         function checkInput(){
         //get values from inputs
-            const emailValue = email.value.trim();
-            const passwordValue = password.value.trim();
-            const companyValue = company.value.trim();
-            const password2Value = password2.value.trim();
+            
             if(emailValue ===''){
                 //add error class
                 setError(email);

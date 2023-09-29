@@ -17,6 +17,9 @@ app.get("/", function (req, res) {
     res.render("index.ejs")
 });
 app.post("/", async (req,res) =>{
+    
+  
+
     try {
         await client.connect();
         const db = client.db('evaluation');
@@ -44,6 +47,10 @@ app.get("/signup",  function (req, res) {
     res.render("signup.ejs")
 });
 app.post("/signup", async (req, res)=> {
+
+  if(req.body.email==''||req.body.gender==''||req.body.company==''||req.body.password==''){
+    res.render("signup.ejs")
+  }
     try {
         await client.connect();
         const db = client.db('evaluation');

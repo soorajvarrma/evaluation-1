@@ -21,7 +21,7 @@
             <div class="banner">
                 <p>Got an account? Enter your details to begin</p>
             </div>
-            <form action="/" method="POST" id="form">
+            <form action="/" method="POST" id="form" onsubmit="return checkInput()">
                     <div class="form-control ">
                         <input type="text" id="email" name="email" placeholder="Email">
                     </div>
@@ -31,7 +31,7 @@
                     <input type="checkbox" name="" id="remember">
                     <p>Remember Me</p>
                     <div class="forgot">
-                        <input class="login" type="submit" onsubmit="checkInput()" value="LOGIN">
+                        <input class="login" type="submit" value="LOGIN">
                         <a class="forgot" href="#"> Forgot Password?</a>
                     </div>
             </form>
@@ -55,38 +55,87 @@
         </div>
     </div>
     <script>
-        const form = document.getElementById('form');
+        var form = document.getElementById('form');
 
-        const password = document.getElementById("password");
+        var password = document.getElementById("password");
 
-        const email = document.getElementById("email");
-        const emailValue = email.value.trim();
-        const passwordValue = password.value.trim();
-        
-        function checkInput(){
-
-            if(emailValue === ""){
-                setError(email);
-                return false;
-            }else if (passwordValue === "") {
-                setError(password);
-                return false;
-            } else {
-                    return true;
-            }
-            
-        }
-        
+        var email = document.getElementById("email");
+        var formControl;
+        var errorm = 0;
+        var errorp =0;
         form.addEventListener("submit" ,e =>{
-            alert(checkInput())
 
-            if(checkInput()){
-                e.preventDefault();
-            }else{
-                alert("good")
-            }
             
-        })
+            if(checkInput()){
+                if((errorm+errorp)!==4){
+                    email.style.borderBottom = "1px solid red"
+                }else{
+                email.style.border = "1px solid green"
+                password.style.borderBottom = "1px solid green"
+                }
+            }else{
+                if(errorm!=0){
+                    email.style.borderBottom = "1px solid red"
+                }
+                if(errorp!==0){
+                    password.style.borderBottom = "1px solid red"
+                }
+
+                errorm = 0;
+                errorp =0;
+            }
+        });
+
+        function checkInput(){
+            var emailValue = email.value.trim()
+            var passwordValue = password.value.trim()
+            if(emailValue ==''){
+                errorm++ ;  
+            }
+            if(passwordValue == ''){
+                errorp++;
+                return false;
+            }else{
+                return true;
+            }
+        }
+            
+        //     if(passwordValue ===''){
+        //        //add error class
+        //        setErrorFor(password);
+        //        return false;
+        //     }else{
+        //        //add success class
+        //       return true;
+        //     }
+        //     if(emailValue ===''){
+        //         //add error class
+        //         setErrorFor(email , "Username cannot be blank");
+        //        return false;
+        //     }else{
+        //        //add success class
+        //        return true;
+        //     }
+        // }
+
+        //     if (passwordValue === "") {
+        //         setError(password)
+        //         return false;
+        //     } else {
+        //             return true;
+        //     }
+        // }
+        
+        // form.addEventListener("submit" ,e =>{
+        //     alert(checkInput())
+
+        //     if(checkInput()){
+        //         e.preventDefault();
+        //     }else{
+        //         alert("good")
+        //     }
+            
+        // })
         
         
             //get values from inputs
@@ -109,9 +158,10 @@
 
         function setError(input){
             // add error class
+            formControl = input.parentElement();
+                formControl.className = "form-control error";
 
-            const formControl = input.parentElement;
-            formControl.className = "form-control error";
+
         }
 
         function validateEmail(input) {
